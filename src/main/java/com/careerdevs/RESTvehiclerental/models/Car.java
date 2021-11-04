@@ -22,6 +22,10 @@ public class Car {
         this.hasFullGas = hasFullGas;
     }
 
+
+
+
+
     public Long getId() {
         return id;
     }
