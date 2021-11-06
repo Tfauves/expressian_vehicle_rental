@@ -5,6 +5,7 @@ import com.careerdevs.RESTvehiclerental.models.Customer;
 import com.careerdevs.RESTvehiclerental.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,8 +29,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer createCustomer(@RequestBody Customer newCustomer) {
-        return repository.save(newCustomer);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
+        return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
 
     @DeleteMapping("/{id}")

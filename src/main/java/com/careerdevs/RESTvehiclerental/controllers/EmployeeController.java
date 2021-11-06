@@ -5,6 +5,7 @@ import com.careerdevs.RESTvehiclerental.models.Employee;
 import com.careerdevs.RESTvehiclerental.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,7 +29,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee newEmployee) {
-        return repository.save(newEmployee);
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee newEmployee) {
+        return new ResponseEntity<>( repository.save(newEmployee), HttpStatus.CREATED);
     }
 }
