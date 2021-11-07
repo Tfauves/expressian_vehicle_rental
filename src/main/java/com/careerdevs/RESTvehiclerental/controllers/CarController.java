@@ -42,6 +42,17 @@ public class CarController {
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED) ;
     }
 
+    @PutMapping("{id}")
+    public @ResponseBody Car updateCarById(@PathVariable Long id,@RequestBody Car updateData) {
+        Car car = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (updateData.getMake() != null) car.setMake(updateData.getMake());
+        if (updateData.getModel() != null)  car.setModel(updateData.getModel());
+        if (updateData.getCurrentOdometer() != null) car.setCurrentOdometer(updateData.getCurrentOdometer());
+        if (updateData.getHasFullGas() != null) car.setHasFullGas(updateData.getHasFullGas());
+
+        return repository.save(car);
+    }
 
 
 }
