@@ -11,15 +11,15 @@ public class Car {
     private String make;
     private String model;
     private Integer currentOdometer;
-    private Boolean hasFullGas;
+    private Boolean needsFuel;
 
     public Car () {}
 
-    public Car (String make, String model, Integer currentOdometer, Boolean hasFullGas) {
+    public Car (String make, String model, Integer currentOdometer, Boolean needsFuel) {
         this.make = make;
         this.model = model;
         this.currentOdometer = currentOdometer;
-        this.hasFullGas = hasFullGas;
+        this.needsFuel = needsFuel;
     }
 
 
@@ -58,11 +58,11 @@ public class Car {
         this.currentOdometer = currentOdometer;
     }
 
-    public Boolean getHasFullGas() {
-        return hasFullGas;
+    public Boolean getNeedsFuel() {
+        return needsFuel;
     }
 
-    public void setHasFullGas(Boolean hasFullGas) {
-        this.hasFullGas = hasFullGas;
+    public void setNeedsFuel(Boolean needsFuel) {
+        this.needsFuel = needsFuel;
     }
 }

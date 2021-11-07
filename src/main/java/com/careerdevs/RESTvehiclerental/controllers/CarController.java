@@ -4,6 +4,7 @@ package com.careerdevs.RESTvehiclerental.controllers;
 import com.careerdevs.RESTvehiclerental.models.Car;
 import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,12 @@ public class CarController {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("make/{make}")
+    public ResponseEntity<List<Car>> getByFuelStatus(@PathVariable String make) {
+        return new ResponseEntity<>(repository.findByMake(make, Sort.by("make")),HttpStatus.OK);
+    }
+
+
     @PostMapping
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED) ;
@@ -49,10 +56,15 @@ public class CarController {
         if (updateData.getMake() != null) car.setMake(updateData.getMake());
         if (updateData.getModel() != null)  car.setModel(updateData.getModel());
         if (updateData.getCurrentOdometer() != null) car.setCurrentOdometer(updateData.getCurrentOdometer());
-        if (updateData.getHasFullGas() != null) car.setHasFullGas(updateData.getHasFullGas());
+        if (updateData.getNeedsFuel() != null) car.setNeedsFuel(updateData.getNeedsFuel());
 
         return repository.save(car);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> destroyCar(@PathVariable Long id) {
+        repository.deleteById(id);
+        return new ResponseEntity<>("Delete", HttpStatus.OK);
+    }
 
 }
