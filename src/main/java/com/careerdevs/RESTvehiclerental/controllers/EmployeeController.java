@@ -46,4 +46,9 @@ public class EmployeeController {
 
         return repository.save(emp);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> destroyEmployee(@PathVariable Long id) {
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+    }
 }
