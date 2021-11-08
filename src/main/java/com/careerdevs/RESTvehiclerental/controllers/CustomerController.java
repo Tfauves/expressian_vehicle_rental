@@ -33,6 +33,17 @@ public class CustomerController {
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
 
+    @PutMapping("/{id}")
+    public @ResponseBody Customer updateCustomer(@PathVariable long id, @RequestBody Customer updateData) {
+        Customer cust = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (updateData.getFirstName() != null) cust.setFirstName(updateData.getFirstName());
+        if (updateData.getLastName() != null) cust.setLastName(updateData.getLastName());
+        if (updateData.getEmail() != null) cust.setEmail(updateData.getEmail());
+
+        return repository.save(cust);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteCustomer (@PathVariable Long id) {
          repository.deleteById(id);
