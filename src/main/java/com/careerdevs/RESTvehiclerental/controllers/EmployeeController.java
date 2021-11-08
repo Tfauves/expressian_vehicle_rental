@@ -1,6 +1,7 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
 
+import com.careerdevs.RESTvehiclerental.models.Customer;
 import com.careerdevs.RESTvehiclerental.models.Employee;
 import com.careerdevs.RESTvehiclerental.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,18 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee newEmployee) {
         return new ResponseEntity<>( repository.save(newEmployee), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public @ResponseBody Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updateData) {
+
+        Employee emp = repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (updateData.getFirstName() != null) emp.setFirstName(updateData.getFirstName());
+        if (updateData.getLastName() != null) emp.setLastName(updateData.getLastName());
+        if (updateData.getDepartment() != null) emp.setDepartment(updateData.getDepartment());
+        if (updateData.getCurrent() != null) emp.setCurrent(updateData.getCurrent());
+
+        return repository.save(emp);
     }
 }
