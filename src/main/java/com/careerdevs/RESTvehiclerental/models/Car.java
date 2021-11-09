@@ -10,14 +10,18 @@ public class Car {
     @Id @GeneratedValue private Long id;
     private String make;
     private String model;
+    private String color;
+    private Integer year;
     private Integer currentOdometer;
     private Boolean needsFuel;
 
     public Car () {}
 
-    public Car (String make, String model, Integer currentOdometer, Boolean needsFuel) {
+    public Car (String make, String model, String color, Integer year, Integer currentOdometer, Boolean needsFuel) {
         this.make = make;
         this.model = model;
+        this.color = color;
+        this.year = year;
         this.currentOdometer = currentOdometer;
         this.needsFuel = needsFuel;
     }
@@ -64,5 +68,21 @@ public class Car {
 
     public void setNeedsFuel(Boolean needsFuel) {
         this.needsFuel = needsFuel;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car, Long> {
 
    List<Car> findByMake(String make, Sort sort);
+   List<Car> findByColor(String color, Sort sort);
 
 
 

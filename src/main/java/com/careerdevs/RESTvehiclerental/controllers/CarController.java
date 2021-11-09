@@ -17,9 +17,6 @@ import java.util.List;
 //        destroy one by id
 //        read all by column(field)
 
-
-
-
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
@@ -43,6 +40,10 @@ public class CarController {
         return new ResponseEntity<>(repository.findByMake(make, Sort.by("make")),HttpStatus.OK);
     }
 
+    @GetMapping("/color/{color}")
+    public ResponseEntity<List<Car>> getByColor(@PathVariable String color) {
+        return new ResponseEntity<>(repository.findByColor(color, Sort.by("make")), HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
@@ -54,7 +55,9 @@ public class CarController {
         Car car = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         if (updateData.getMake() != null) car.setMake(updateData.getMake());
-        if (updateData.getModel() != null)  car.setModel(updateData.getModel());
+        if (updateData.getModel() != null) car.setModel(updateData.getModel());
+        if (updateData.getColor() != null) car.setColor(updateData.getColor());
+        if (updateData.getYear() != null) car.setYear(updateData.getYear());
         if (updateData.getCurrentOdometer() != null) car.setCurrentOdometer(updateData.getCurrentOdometer());
         if (updateData.getNeedsFuel() != null) car.setNeedsFuel(updateData.getNeedsFuel());
 
