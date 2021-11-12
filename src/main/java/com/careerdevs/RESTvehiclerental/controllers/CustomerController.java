@@ -29,6 +29,11 @@ public class CustomerController {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/lastName/{lastName}")
+    public ResponseEntity<List<Customer>> getByLastName(@PathVariable String lastName) {
+        return new ResponseEntity<>(repository.findByLastName(lastName,Sort.by("lastName")), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
@@ -49,6 +54,7 @@ public class CustomerController {
     public void deleteCustomer (@PathVariable Long id) {
          repository.deleteById(id);
     }
+
 
 
 }
