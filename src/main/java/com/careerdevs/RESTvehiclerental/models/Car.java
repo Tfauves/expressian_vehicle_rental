@@ -1,9 +1,7 @@
 package com.careerdevs.RESTvehiclerental.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Car {
@@ -15,9 +13,15 @@ public class Car {
     private Integer currentOdometer;
     private Boolean needsFuel;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private Store store;
+
+
     public Car () {}
 
-    public Car (String make, String model, String color, Integer year, Integer currentOdometer, Boolean needsFuel) {
+    public Car (Store store, String make, String model, String color, Integer year, Integer currentOdometer, Boolean needsFuel) {
+        this.store = store;
         this.make = make;
         this.model = model;
         this.color = color;
@@ -84,5 +88,13 @@ public class Car {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 }

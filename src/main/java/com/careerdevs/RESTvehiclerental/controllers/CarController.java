@@ -24,15 +24,26 @@ public class CarController {
     @Autowired
     private CarRepository repository;
 
+//    @GetMapping
+//    public @ResponseBody List<Car> getCars() {
+//        return repository.findAll();
+//    }
+
     @GetMapping
-    public @ResponseBody List<Car> getCars() {
-        return repository.findAll();
+    public ResponseEntity<Iterable<Car>> getAll() {
+        return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+
     }
 
 
     @GetMapping("/{id}")
     public @ResponseBody Car getOneById(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/store/{storeId}")
+    public ResponseEntity<List<Car>> getByStoreId(@PathVariable Long storeId) {
+        return new ResponseEntity<>(repository.findByStoreId(storeId, Sort.by("make")), HttpStatus.OK);
     }
 
     @GetMapping("make/{make}")
@@ -44,10 +55,16 @@ public class CarController {
     public ResponseEntity<List<Car>> getByColor(@PathVariable String color) {
         return new ResponseEntity<>(repository.findByColor(color, Sort.by("make")), HttpStatus.OK);
     }
+//
+//    @PostMapping
+//    public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
+//        return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED) ;
+//    }
 
     @PostMapping
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
-        return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED) ;
+        System.out.println(newCar.getStore().getId());
+        return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
@@ -60,7 +77,7 @@ public class CarController {
         if (updateData.getYear() != null) car.setYear(updateData.getYear());
         if (updateData.getCurrentOdometer() != null) car.setCurrentOdometer(updateData.getCurrentOdometer());
         if (updateData.getNeedsFuel() != null) car.setNeedsFuel(updateData.getNeedsFuel());
-
+        if (updateData.getStore() != null) car.setStore(updateData.getStore());
         return repository.save(car);
     }
 
