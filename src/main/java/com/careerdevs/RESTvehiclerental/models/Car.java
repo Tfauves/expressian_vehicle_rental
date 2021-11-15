@@ -11,7 +11,6 @@ public class Car {
     private String color;
     private Integer year;
     private Integer currentOdometer;
-    private Boolean needsFuel;
 
     @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "id")
@@ -20,14 +19,13 @@ public class Car {
 
     public Car () {}
 
-    public Car (Store store, String make, String model, String color, Integer year, Integer currentOdometer, Boolean needsFuel) {
+    public Car (Store store, String make, String model, String color, Integer year, Integer currentOdometer) {
         this.store = store;
         this.make = make;
         this.model = model;
         this.color = color;
         this.year = year;
         this.currentOdometer = currentOdometer;
-        this.needsFuel = needsFuel;
     }
 
 
@@ -64,14 +62,6 @@ public class Car {
 
     public void setCurrentOdometer(Integer currentOdometer) {
         this.currentOdometer = currentOdometer;
-    }
-
-    public Boolean getNeedsFuel() {
-        return needsFuel;
-    }
-
-    public void setNeedsFuel(Boolean needsFuel) {
-        this.needsFuel = needsFuel;
     }
 
     public String getColor() {

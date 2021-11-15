@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-//
-//Create the following routes
-//        Update one by id
-//        destroy one by id
-//        read all by column(field)
 
 @RestController
 @RequestMapping("/api/cars")
@@ -24,17 +19,10 @@ public class CarController {
     @Autowired
     private CarRepository repository;
 
-//    @GetMapping
-//    public @ResponseBody List<Car> getCars() {
-//        return repository.findAll();
-//    }
-
     @GetMapping
     public ResponseEntity<Iterable<Car>> getAll() {
         return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
-
     }
-
 
     @GetMapping("/{id}")
     public @ResponseBody Car getOneById(@PathVariable Long id) {
@@ -46,20 +34,10 @@ public class CarController {
         return new ResponseEntity<>(repository.findByStoreId(storeId, Sort.by("make")), HttpStatus.OK);
     }
 
-    @GetMapping("make/{make}")
-    public ResponseEntity<List<Car>> getByFuelStatus(@PathVariable String make) {
-        return new ResponseEntity<>(repository.findByMake(make, Sort.by("make")),HttpStatus.OK);
-    }
-
     @GetMapping("/color/{color}")
     public ResponseEntity<List<Car>> getByColor(@PathVariable String color) {
         return new ResponseEntity<>(repository.findByColor(color, Sort.by("make")), HttpStatus.OK);
     }
-//
-//    @PostMapping
-//    public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
-//        return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED) ;
-//    }
 
     @PostMapping
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
@@ -76,7 +54,6 @@ public class CarController {
         if (updateData.getColor() != null) car.setColor(updateData.getColor());
         if (updateData.getYear() != null) car.setYear(updateData.getYear());
         if (updateData.getCurrentOdometer() != null) car.setCurrentOdometer(updateData.getCurrentOdometer());
-        if (updateData.getNeedsFuel() != null) car.setNeedsFuel(updateData.getNeedsFuel());
         if (updateData.getStore() != null) car.setStore(updateData.getStore());
         return repository.save(car);
     }
