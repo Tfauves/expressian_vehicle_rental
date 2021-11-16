@@ -1,8 +1,7 @@
 package com.careerdevs.RESTvehiclerental.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Customer {
@@ -11,12 +10,20 @@ public class Customer {
     private String lastName;
     private String email;
 
+    @ManyToMany
+    @JoinTable(
+            name = "customer_id",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "store_id")
+    )
+    public Set<Store> stores;
     public Customer() {}
 
-    public Customer(String firstName, String lastName, String email) {
+    public Customer(String firstName, String lastName, String email, Set<Store> stores) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.stores =stores;
     }
 
 

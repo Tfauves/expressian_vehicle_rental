@@ -3,6 +3,7 @@ package com.careerdevs.RESTvehiclerental.models;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Store {
@@ -16,11 +17,20 @@ public class Store {
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private List<Car> cars;
 
+    @ManyToMany
+    @JoinTable(
+            name = "store_id",
+            joinColumns = @JoinColumn(name = "store_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
+    )
+    Set<Customer> customers;
+
     public Store() {}
 
-    public Store(String address, String email) {
+    public Store(String address, String email, Set<Customer> customers) {
         this.address = address;
         this.email = email;
+        this.customers = customers;
     }
 
     public Long getId() {
@@ -45,5 +55,13 @@ public class Store {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 }
