@@ -2,6 +2,6 @@ Part B:
 in your Expressian app create the Location entity and establish a one to one relationship with the vehicle entity
 create an add one and delete one route
 create routes to you vehicle controller that allow you to:
-add a location
+*add a location
 change location
 remove location
