@@ -1,8 +1,15 @@
 package com.careerdevs.RESTvehiclerental.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Entity
 public class Car {
     @Id @GeneratedValue private Long id;
@@ -16,16 +23,20 @@ public class Car {
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private Store store;
 
+    @OneToOne
+    private Location location;
 
     public Car () {}
 
-    public Car (Store store, String make, String model, String color, Integer year, Integer currentOdometer) {
+    public Car (Store store, String make, String model, String color, Integer year, Integer currentOdometer, Location location) {
         this.store = store;
         this.make = make;
         this.model = model;
         this.color = color;
         this.year = year;
         this.currentOdometer = currentOdometer;
+        this.location = location;
+
     }
 
 
@@ -86,5 +97,13 @@ public class Car {
 
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

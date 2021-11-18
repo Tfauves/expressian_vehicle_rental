@@ -2,7 +2,9 @@ package com.careerdevs.RESTvehiclerental.controllers;
 
 
 import com.careerdevs.RESTvehiclerental.models.Car;
+import com.careerdevs.RESTvehiclerental.models.Location;
 import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
+import com.careerdevs.RESTvehiclerental.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,9 @@ public class CarController {
 
     @Autowired
     private CarRepository repository;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
     @GetMapping
     public ResponseEntity<Iterable<Car>> getAll() {
@@ -43,6 +48,14 @@ public class CarController {
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
         System.out.println(newCar.getStore().getId());
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/location")
+    public Car addLocation(@RequestBody Car carCar) {
+        Car car = repository.findById(carCar.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+       Location location = locationRepository.save(carCar.getLocation());
+       car.setLocation(location);
+       return repository.save(car);
     }
 
     @PutMapping("{id}")
