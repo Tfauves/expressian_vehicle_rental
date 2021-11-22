@@ -38,13 +38,13 @@ public class CustomerController {
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
-
-    @PutMapping("/store/{store_id}")
-    public Customer addStoreLocation(@PathVariable long store_id, @RequestBody Customer update) {
-        Customer customer = repository.findById(update.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        customer.stores.addAll(update.stores);
-        return repository.save(customer);
-    }
+//
+//    @PutMapping("/store/{store_id}")
+//    public Customer addStoreLocation(@PathVariable long store_id, @RequestBody Customer update) {
+//        Customer customer = repository.findById(update.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//        customer.stores.addAll(update.stores);
+//        return repository.save(customer);
+//    }
 
     @PutMapping("/{id}")
     public @ResponseBody Customer updateCustomer(@PathVariable long id, @RequestBody Customer updateData) {
@@ -53,6 +53,7 @@ public class CustomerController {
         if (updateData.getFirstName() != null) cust.setFirstName(updateData.getFirstName());
         if (updateData.getLastName() != null) cust.setLastName(updateData.getLastName());
         if (updateData.getEmail() != null) cust.setEmail(updateData.getEmail());
+        if (updateData.stores != null) cust.stores = updateData.stores;
 
         return repository.save(cust);
     }

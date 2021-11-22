@@ -23,7 +23,7 @@ public class Store {
             joinColumns = @JoinColumn(name = "store_id"),
             inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
-    Set<Customer> customers;
+    private Set<Customer> customers;
 
     public Store() {}
 
