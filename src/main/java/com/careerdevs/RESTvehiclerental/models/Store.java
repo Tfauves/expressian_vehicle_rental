@@ -27,10 +27,9 @@ public class Store {
 
     public Store() {}
 
-    public Store(String address, String email, Set<Customer> customers) {
+    public Store(String address, String email) {
         this.address = address;
         this.email = email;
-        this.customers = customers;
     }
 
     public Long getId() {

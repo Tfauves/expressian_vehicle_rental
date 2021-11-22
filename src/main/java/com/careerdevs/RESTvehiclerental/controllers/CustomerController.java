@@ -39,8 +39,8 @@ public class CustomerController {
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
 
-    @PutMapping("/store")
-    public Customer addStoreLocation(@RequestBody Customer update) {
+    @PutMapping("/store/{store_id}")
+    public Customer addStoreLocation(@PathVariable long store_id, @RequestBody Customer update) {
         Customer customer = repository.findById(update.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         customer.stores.addAll(update.stores);
         return repository.save(customer);

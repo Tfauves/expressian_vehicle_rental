@@ -1,12 +1,8 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
-
-import com.careerdevs.RESTvehiclerental.models.Car;
-import com.careerdevs.RESTvehiclerental.models.Customer;
 import com.careerdevs.RESTvehiclerental.models.Store;
 import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +30,6 @@ public class StoreController {
         if (store.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-
         return new ResponseEntity<>(store.get(), HttpStatus.OK);
     }
 
