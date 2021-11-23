@@ -10,6 +10,7 @@ public class Customer {
     private String lastName;
     private String email;
 
+    //store id in customer table
     @ManyToMany
     @JoinTable(
             name = "customer_id",
