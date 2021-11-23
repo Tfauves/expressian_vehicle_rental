@@ -23,7 +23,12 @@ public class LocationController {
         return repository.findAll();
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
+    public ResponseEntity<Location> createLocation(@RequestBody Location newLocation) {
+        return new ResponseEntity<>(repository.save(newLocation), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
     public @ResponseBody Location updateLocation(@PathVariable Long id, @RequestBody Location updates) {
         Location location = repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

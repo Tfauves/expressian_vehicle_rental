@@ -46,18 +46,16 @@ public class CarController {
 
     @PostMapping
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
-        System.out.println(newCar.getStore().getId());
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED);
     }
 
     @PostMapping("/location")
     public Car addLocation(@RequestBody Car carCar) {
         Car car = repository.findById(carCar.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-       Location location = locationRepository.save(carCar.getLocation());
-       car.setLocation(location);
-       return repository.save(car);
+        Location location = locationRepository.save(carCar.getLocation());
+        car.setLocation(location);
+        return repository.save(car);
     }
-
 
     @PutMapping("{id}")
     public @ResponseBody Car updateCarById(@PathVariable Long id,@RequestBody Car updateData) {
@@ -77,10 +75,5 @@ public class CarController {
         repository.deleteById(id);
         return new ResponseEntity<>("Delete", HttpStatus.OK);
     }
-
-//    @DeleteMapping("/location")
-//    public ResponseEntity<String> destroyLocation(@PathVariable Long id) {
-//        Car cars = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//    }
 
 }
