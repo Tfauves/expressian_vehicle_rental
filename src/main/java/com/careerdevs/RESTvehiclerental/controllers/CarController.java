@@ -49,13 +49,22 @@ public class CarController {
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED);
     }
 
-    @PostMapping("/location")
+    @PutMapping("/location")
     public Car addLocation(@RequestBody Car carCar) {
         Car car = repository.findById(carCar.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Location location = locationRepository.save(carCar.getLocation());
         car.setLocation(location);
         return repository.save(car);
     }
+
+    @PutMapping("/location/{id}")
+    public ResponseEntity<Car> editLocation(@PathVariable Long id, @RequestBody Car updateData) {
+        Car car = repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        car.setLocation(updateData.getLocation());
+        car.getLocation().setLocationDesignation(car.getLocation().getLocationDesignation());
+        return new ResponseEntity<>(repository.save(car), HttpStatus.ACCEPTED);
+    }
+
 
     @PutMapping("{id}")
     public @ResponseBody Car updateCarById(@PathVariable Long id,@RequestBody Car updateData) {
