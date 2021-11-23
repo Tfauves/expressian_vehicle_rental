@@ -65,7 +65,6 @@ public class CarController {
         return new ResponseEntity<>(repository.save(car), HttpStatus.ACCEPTED);
     }
 
-
     @PutMapping("{id}")
     public @ResponseBody Car updateCarById(@PathVariable Long id,@RequestBody Car updateData) {
         Car car = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
