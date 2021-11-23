@@ -78,4 +78,9 @@ public class CarController {
         return new ResponseEntity<>("Delete", HttpStatus.OK);
     }
 
+//    @DeleteMapping("/location")
+//    public ResponseEntity<String> destroyLocation(@PathVariable Long id) {
+//        Car cars = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//    }
+
 }
