@@ -57,18 +57,6 @@ public class CarController {
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED);
     }
 
-//    @PostMapping("/like/{id}")
-//    public ResponseEntity<Geekout> likeById(@PathVariable Long id, @RequestBody Developer developer) {
-//        Optional<Geekout> geekout = repository.findById(id);
-//
-//        if (geekout.isEmpty()) {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//        Approve newApproval = new Approve(developer, geekout.get());
-//        approveRepository.save(newApproval);
-//        return new ResponseEntity<>(geekout.get(), HttpStatus.CREATED);
-//    }
-
     @PostMapping("rental/{id}")
     public ResponseEntity<Car> rentalById(@PathVariable Long id, @RequestBody Customer customer) {
         Optional<Car> car = repository.findById(id);

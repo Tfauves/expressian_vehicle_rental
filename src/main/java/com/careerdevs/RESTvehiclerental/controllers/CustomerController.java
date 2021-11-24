@@ -2,6 +2,7 @@ package com.careerdevs.RESTvehiclerental.controllers;
 
 
 import com.careerdevs.RESTvehiclerental.models.customer.Customer;
+import com.careerdevs.RESTvehiclerental.models.vehicle.Car;
 import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
 import com.careerdevs.RESTvehiclerental.repositories.CustomerRepository;
 import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
@@ -42,8 +43,10 @@ public class CustomerController {
         return new ResponseEntity<>(repository.findByLastName(lastName,Sort.by("lastName")), HttpStatus.OK);
     }
 
-    @GetMapping("rental/{cust_id}")
-
+    @GetMapping("rental/{custId}")
+    public List<Car> getRentals(@PathVariable Long custId) {
+        return car_repository.findAllByRentals_customer_id(custId);
+    }
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
