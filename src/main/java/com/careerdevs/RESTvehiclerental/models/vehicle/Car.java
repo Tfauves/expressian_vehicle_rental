@@ -43,8 +43,9 @@ public class Car {
 
     public Car () {}
 
-    public Car (Store store, String make, String model, String color, Integer year, Integer currentOdometer, Location location) {
+    public Car (Store store, Customer customer, String make, String model, String color, Integer year, Integer currentOdometer, Location location) {
         this.store = store;
+        this.customer = customer;
         this.make = make;
         this.model = model;
         this.color = color;

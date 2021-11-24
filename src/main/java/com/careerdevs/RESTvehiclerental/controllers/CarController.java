@@ -1,10 +1,13 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
 
+import com.careerdevs.RESTvehiclerental.models.customer.Customer;
+import com.careerdevs.RESTvehiclerental.models.rental.Rental;
 import com.careerdevs.RESTvehiclerental.models.vehicle.Car;
 import com.careerdevs.RESTvehiclerental.models.location.Location;
 import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
 import com.careerdevs.RESTvehiclerental.repositories.LocationRepository;
+import com.careerdevs.RESTvehiclerental.repositories.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/cars")
@@ -23,6 +28,9 @@ public class CarController {
 
     @Autowired
     private LocationRepository locationRepository;
+
+    @Autowired
+    private RentalRepository rental_repository;
 
     @GetMapping
     public ResponseEntity<Iterable<Car>> getAll() {
@@ -47,6 +55,30 @@ public class CarController {
     @PostMapping
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED);
+    }
+
+//    @PostMapping("/like/{id}")
+//    public ResponseEntity<Geekout> likeById(@PathVariable Long id, @RequestBody Developer developer) {
+//        Optional<Geekout> geekout = repository.findById(id);
+//
+//        if (geekout.isEmpty()) {
+//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        }
+//        Approve newApproval = new Approve(developer, geekout.get());
+//        approveRepository.save(newApproval);
+//        return new ResponseEntity<>(geekout.get(), HttpStatus.CREATED);
+//    }
+
+    @PostMapping("rental/{id}")
+    public ResponseEntity<Car> rentalById(@PathVariable Long id, @RequestBody Customer customer) {
+        Optional<Car> car = repository.findById(id);
+
+        if (car.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        Rental newRental = new Rental(customer, car.get());
+        rental_repository.save(newRental);
+        return new ResponseEntity<>(car.get(), HttpStatus.CREATED);
     }
 
     @PutMapping("/location")

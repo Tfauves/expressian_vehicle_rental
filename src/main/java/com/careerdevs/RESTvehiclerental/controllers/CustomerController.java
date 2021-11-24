@@ -2,6 +2,7 @@ package com.careerdevs.RESTvehiclerental.controllers;
 
 
 import com.careerdevs.RESTvehiclerental.models.customer.Customer;
+import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
 import com.careerdevs.RESTvehiclerental.repositories.CustomerRepository;
 import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class CustomerController {
     @Autowired
     private StoreRepository store_repository;
 
+    @Autowired
+    private CarRepository car_repository;
+
     @GetMapping
     public @ResponseBody List<Customer> getCustomers() {
         return repository.findAll();
@@ -37,6 +41,9 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getByLastName(@PathVariable String lastName) {
         return new ResponseEntity<>(repository.findByLastName(lastName,Sort.by("lastName")), HttpStatus.OK);
     }
+
+    @GetMapping("rental/{cust_id}")
+
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {

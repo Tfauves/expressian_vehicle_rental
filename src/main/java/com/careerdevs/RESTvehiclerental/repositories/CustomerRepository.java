@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByLastName(String lastName, Sort sort);
+    List<Customer>findAllByRentals_car_id(Long id);
 }
