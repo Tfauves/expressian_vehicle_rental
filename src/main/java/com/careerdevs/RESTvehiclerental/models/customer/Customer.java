@@ -9,7 +9,9 @@ import java.util.Set;
 
 @Entity
 public class Customer {
-    @Id @GeneratedValue private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;

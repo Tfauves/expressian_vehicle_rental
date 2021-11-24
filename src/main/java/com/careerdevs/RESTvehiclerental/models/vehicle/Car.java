@@ -18,7 +18,9 @@ import java.util.Set;
 //)
 @Entity
 public class Car {
-    @Id @GeneratedValue private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
     private String make;
     private String model;
     private String color;
