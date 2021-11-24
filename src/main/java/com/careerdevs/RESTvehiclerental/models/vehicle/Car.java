@@ -1,10 +1,16 @@
 package com.careerdevs.RESTvehiclerental.models.vehicle;
 
 
+import com.careerdevs.RESTvehiclerental.models.customer.Customer;
 import com.careerdevs.RESTvehiclerental.models.location.Location;
+import com.careerdevs.RESTvehiclerental.models.rental.Rental;
 import com.careerdevs.RESTvehiclerental.models.store.Store;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
+import java.util.Set;
+
 //
 //@JsonIdentityInfo(
 //        generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -23,8 +29,17 @@ public class Car {
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private Store store;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("email")
+    private Customer customer;
+
     @OneToOne
     private Location location;
+
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    @JsonIncludeProperties("customer")
+    private Set<Rental> rentals;
 
     public Car () {}
 
@@ -38,9 +53,6 @@ public class Car {
         this.location = location;
 
     }
-
-
-
 
 
     public Long getId() {
@@ -105,5 +117,21 @@ public class Car {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Set<Rental> getRentals() {
+        return rentals;
+    }
+
+    public void setRentals(Set<Rental> rentals) {
+        this.rentals = rentals;
     }
 }

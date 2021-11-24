@@ -1,6 +1,8 @@
 package com.careerdevs.RESTvehiclerental.models.customer;
 
+import com.careerdevs.RESTvehiclerental.models.rental.Rental;
 import com.careerdevs.RESTvehiclerental.models.store.Store;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,6 +22,11 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "store_id")
     )
     public Set<Store> stores;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Rental> rentals;
+
     public Customer() {}
 
     public Customer(String firstName, String lastName, String email) {
