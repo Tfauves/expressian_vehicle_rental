@@ -1,6 +1,6 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
-import com.careerdevs.RESTvehiclerental.models.Location;
+import com.careerdevs.RESTvehiclerental.models.location.Location;
 import com.careerdevs.RESTvehiclerental.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

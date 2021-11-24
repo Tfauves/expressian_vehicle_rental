@@ -1,8 +1,8 @@
-package com.careerdevs.RESTvehiclerental.models;
+package com.careerdevs.RESTvehiclerental.models.vehicle;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.careerdevs.RESTvehiclerental.models.location.Location;
+import com.careerdevs.RESTvehiclerental.models.store.Store;
 
 import javax.persistence.*;
 //

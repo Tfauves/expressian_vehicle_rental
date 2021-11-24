@@ -1,8 +1,8 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
 
-import com.careerdevs.RESTvehiclerental.models.Car;
-import com.careerdevs.RESTvehiclerental.models.Location;
+import com.careerdevs.RESTvehiclerental.models.vehicle.Car;
+import com.careerdevs.RESTvehiclerental.models.location.Location;
 import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
 import com.careerdevs.RESTvehiclerental.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;

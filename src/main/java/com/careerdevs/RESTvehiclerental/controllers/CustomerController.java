@@ -1,8 +1,7 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
 
-import com.careerdevs.RESTvehiclerental.models.Customer;
-import com.careerdevs.RESTvehiclerental.models.Store;
+import com.careerdevs.RESTvehiclerental.models.customer.Customer;
 import com.careerdevs.RESTvehiclerental.repositories.CustomerRepository;
 import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;

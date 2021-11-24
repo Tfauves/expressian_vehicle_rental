@@ -1,6 +1,6 @@
 package com.careerdevs.RESTvehiclerental.repositories;
 
-import com.careerdevs.RESTvehiclerental.models.Car;
+import com.careerdevs.RESTvehiclerental.models.vehicle.Car;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 

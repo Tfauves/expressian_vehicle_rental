@@ -1,4 +1,6 @@
-package com.careerdevs.RESTvehiclerental.models;
+package com.careerdevs.RESTvehiclerental.models.customer;
+
+import com.careerdevs.RESTvehiclerental.models.store.Store;
 
 import javax.persistence.*;
 import java.util.Set;
