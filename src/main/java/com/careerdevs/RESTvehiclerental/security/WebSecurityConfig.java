@@ -1,6 +1,8 @@
 package com.careerdevs.RESTvehiclerental.security;
 
 
+import com.careerdevs.RESTvehiclerental.security.jwt.AuthEntryPointJwt;
+import com.careerdevs.RESTvehiclerental.security.jwt.AuthTokenFilter;
 import com.careerdevs.RESTvehiclerental.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
     @Autowired
-    private AuthenticationEntryPoint unauthorizedHandler;
+    private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
