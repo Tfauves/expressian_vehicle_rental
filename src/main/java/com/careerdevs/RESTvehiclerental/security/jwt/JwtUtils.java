@@ -14,7 +14,7 @@ import java.util.Date;
 public class JwtUtils {
     private static Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${REST-vehicle-rental.app.jwtSecret=\"fivezeros\"}")
+    @Value("${REST-vehicle-rental.app.jwtSecret}")
     private String jwtSecret;
 
     public Boolean validateJwtToken(String authToken) {
@@ -46,6 +46,6 @@ public class JwtUtils {
 
     public String getUsernameFromJwtToken(String token) {
 
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJwt(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 }
