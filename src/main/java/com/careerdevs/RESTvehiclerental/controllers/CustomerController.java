@@ -1,15 +1,20 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
 
+import com.careerdevs.RESTvehiclerental.models.auth.User;
 import com.careerdevs.RESTvehiclerental.models.customer.Customer;
 import com.careerdevs.RESTvehiclerental.models.vehicle.Car;
 import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
 import com.careerdevs.RESTvehiclerental.repositories.CustomerRepository;
 import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
+import com.careerdevs.RESTvehiclerental.repositories.UserRepository;
+import com.careerdevs.RESTvehiclerental.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +32,9 @@ public class CustomerController {
 
     @Autowired
     private CarRepository car_repository;
+
+    @Autowired
+     UserRepository user_repository;
 
     @GetMapping
     public @ResponseBody List<Customer> getCustomers() {
@@ -50,6 +58,12 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        User currentUser = user_repository.findById(userDetails.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        newCustomer.setUser(currentUser);
+
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
 
