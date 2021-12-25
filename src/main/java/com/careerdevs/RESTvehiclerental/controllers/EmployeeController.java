@@ -33,4 +33,15 @@ public class EmployeeController {
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee newEmployee) {
         return new ResponseEntity<>(repository.save(newEmployee), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public @ResponseBody Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updateData) {
+
+        Employee employee = repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (updateData.getName() != null) employee.setName(updateData.getName());
+        if (updateData.getDepartment() != null) employee.setDepartment(updateData.getDepartment());
+
+        return repository.save(employee);
+    }
 }
