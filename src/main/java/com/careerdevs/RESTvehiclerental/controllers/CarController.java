@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,31 +34,37 @@ public class CarController {
     private RentalRepository rental_repository;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Iterable<Car>> getAll() {
         return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public @ResponseBody Car getOneById(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/store/{storeId}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<Car>> getByStoreId(@PathVariable Long storeId) {
         return new ResponseEntity<>(repository.findByStoreId(storeId, Sort.by("make")), HttpStatus.OK);
     }
 
     @GetMapping("/color/{color}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<Car>> getByColor(@PathVariable String color) {
         return new ResponseEntity<>(repository.findByColor(color, Sort.by("make")), HttpStatus.OK);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Car> createCar(@RequestBody Car newCar) {
         return new ResponseEntity<>(repository.save(newCar), HttpStatus.CREATED);
     }
 
     @PostMapping("rental/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Car> rentalById(@PathVariable Long id, @RequestBody Customer customer) {
         Optional<Car> car = repository.findById(id);
 
@@ -70,6 +77,7 @@ public class CarController {
     }
 
     @PutMapping("/location")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public Car addLocation(@RequestBody Car carCar) {
         Car car = repository.findById(carCar.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Location location = locationRepository.save(carCar.getLocation());
@@ -78,6 +86,7 @@ public class CarController {
     }
 
     @PutMapping("/location/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Car> editLocation(@PathVariable Long id, @RequestBody Car updateData) {
         Car car = repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
         car.setLocation(updateData.getLocation());
@@ -86,6 +95,7 @@ public class CarController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public @ResponseBody Car updateCarById(@PathVariable Long id,@RequestBody Car updateData) {
         Car car = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -99,6 +109,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> destroyCar(@PathVariable Long id) {
         repository.deleteById(id);
         return new ResponseEntity<>("Delete", HttpStatus.OK);
