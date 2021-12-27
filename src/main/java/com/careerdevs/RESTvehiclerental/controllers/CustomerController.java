@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -37,26 +38,32 @@ public class CustomerController {
      UserRepository user_repository;
 
     @GetMapping
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public @ResponseBody List<Customer> getCustomers() {
         return repository.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR')")
     public @ResponseBody Customer getOneById(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/lastName/{lastName}")
+    @PreAuthorize("hasRole('MODERATOR')")
     public ResponseEntity<List<Customer>> getByLastName(@PathVariable String lastName) {
         return new ResponseEntity<>(repository.findByLastName(lastName,Sort.by("lastName")), HttpStatus.OK);
     }
 
     @GetMapping("rental/{custId}")
+    @PreAuthorize("hasRole('MODERATOR')")
     public List<Car> getRentals(@PathVariable Long custId) {
         return car_repository.findAllByRentals_customer_id(custId);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -68,6 +75,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public @ResponseBody Customer updateCustomer(@PathVariable long id, @RequestBody Customer updateData) {
         Customer cust = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -80,6 +88,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCustomer (@PathVariable Long id) {
          repository.deleteById(id);
     }

@@ -5,6 +5,7 @@ import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,11 +20,13 @@ public class StoreController {
     private StoreRepository repository;
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR')")
     public @ResponseBody List<Store> getAll() {
         return repository.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Store> getById(@PathVariable Long id) {
         Optional<Store> store = repository.findById(id);
 
@@ -34,11 +37,13 @@ public class StoreController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Store> createStore(@RequestBody Store newStore) {
         return new ResponseEntity<>(repository.save(newStore), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody Store getById(@PathVariable long id, @RequestBody Store updateData) {
         Store store = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         if (updateData.getAddress() != null) store.setAddress(updateData.getAddress());
@@ -48,6 +53,7 @@ public class StoreController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> destroyStore(@PathVariable Long id) {
         repository.deleteById(id);
         return new ResponseEntity<>("Deleted", HttpStatus.OK);

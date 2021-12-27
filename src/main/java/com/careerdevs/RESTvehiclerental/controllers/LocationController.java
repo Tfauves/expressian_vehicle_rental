@@ -19,6 +19,7 @@ public class LocationController {
     private LocationRepository repository;
 
     @GetMapping
+
     public @ResponseBody List<Location> getAll() {
         return repository.findAll();
     }
