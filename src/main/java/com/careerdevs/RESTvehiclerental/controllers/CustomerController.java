@@ -9,6 +9,7 @@ import com.careerdevs.RESTvehiclerental.repositories.CustomerRepository;
 import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
 import com.careerdevs.RESTvehiclerental.repositories.UserRepository;
 import com.careerdevs.RESTvehiclerental.security.services.UserDetailsImpl;
+import com.careerdevs.RESTvehiclerental.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public class CustomerController {
 
     @Autowired
      UserRepository user_repository;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -65,12 +69,19 @@ public class CustomerController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
+        User currentUser = userService.getCurrentUser();
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
 
-        User currentUser = user_repository.findById(userDetails.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
         newCustomer.setUser(currentUser);
+
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+//
+//        User currentUser = user_repository.findById(userDetails.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//        newCustomer.setUser(currentUser);
 
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
