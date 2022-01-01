@@ -65,6 +65,7 @@ public class CustomerController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer newCustomer) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
