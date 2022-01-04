@@ -47,6 +47,17 @@ public class CustomerController {
         return repository.findAll();
     }
 
+    @GetMapping("/self")
+    public @ResponseBody Customer getSelf() {
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return null;
+        }
+
+        return repository.findByCustomer_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR')")
     public @ResponseBody Customer getOneById(@PathVariable Long id) {
@@ -76,12 +87,6 @@ public class CustomerController {
         }
 
         newCustomer.setUser(currentUser);
-
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//
-//        User currentUser = user_repository.findById(userDetails.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        newCustomer.setUser(currentUser);
 
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
