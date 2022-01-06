@@ -64,12 +64,6 @@ public class CustomerController {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/lastName/{lastName}")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<List<Customer>> getByLastName(@PathVariable String lastName) {
-        return new ResponseEntity<>(repository.findByLastName(lastName,Sort.by("lastName")), HttpStatus.OK);
-    }
-
     @GetMapping("rental/{custId}")
     @PreAuthorize("hasRole('MODERATOR')")
     public List<Car> getRentals(@PathVariable Long custId) {
