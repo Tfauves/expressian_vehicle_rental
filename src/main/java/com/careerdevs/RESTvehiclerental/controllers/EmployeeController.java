@@ -52,6 +52,13 @@ public class EmployeeController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee newEmployee) {
+
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        newEmployee
         return new ResponseEntity<>(repository.save(newEmployee), HttpStatus.CREATED);
     }
 
