@@ -58,7 +58,8 @@ public class EmployeeController {
         if (currentUser == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        newEmployee
+        newEmployee.setUser(currentUser);
+
         return new ResponseEntity<>(repository.save(newEmployee), HttpStatus.CREATED);
     }
 
