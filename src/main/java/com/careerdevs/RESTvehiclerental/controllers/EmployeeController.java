@@ -78,7 +78,12 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> destroyEmployee(@PathVariable Long id) {
-        repository.deleteById(id);
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return null;
+        }
+        repository.deleteUserBy_id(currentUser.getId());
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }
