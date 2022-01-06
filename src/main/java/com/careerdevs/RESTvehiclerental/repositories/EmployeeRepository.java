@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    Optional<Customer> findByCustomer_id(Long id);
+    Optional<Employee> findByEmployee_id(Long id);
 
     void deleteUserBy_id(Long id);
 }
