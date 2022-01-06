@@ -1,6 +1,8 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
 import com.careerdevs.RESTvehiclerental.models.Employee;
+import com.careerdevs.RESTvehiclerental.models.auth.User;
+import com.careerdevs.RESTvehiclerental.models.customer.Customer;
 import com.careerdevs.RESTvehiclerental.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,18 @@ public class EmployeeController {
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody Employee getById(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/self")
+    public @ResponseBody
+    Customer getSelf() {
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return null;
+        }
+
+        return repository.findByCustomer_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
