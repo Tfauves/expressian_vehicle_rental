@@ -63,9 +63,15 @@ public class EmployeeController {
         return new ResponseEntity<>(repository.save(newEmployee), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updateData) {
+
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return null;
+        }
 
         Employee employee = repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
