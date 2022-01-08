@@ -1,7 +1,9 @@
 package com.careerdevs.RESTvehiclerental.controllers;
 
 import com.careerdevs.RESTvehiclerental.models.Employee;
+import com.careerdevs.RESTvehiclerental.models.auth.User;
 import com.careerdevs.RESTvehiclerental.repositories.EmployeeRepository;
+import com.careerdevs.RESTvehiclerental.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository repository;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
@@ -32,9 +37,29 @@ public class EmployeeController {
         return repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/self")
+    public @ResponseBody
+    Employee getSelf() {
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return null;
+        }
+
+        return repository.findByEmployee_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee newEmployee) {
+
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        newEmployee.setUser(currentUser);
+
         return new ResponseEntity<>(repository.save(newEmployee), HttpStatus.CREATED);
     }
 
@@ -53,7 +78,12 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> destroyEmployee(@PathVariable Long id) {
-        repository.deleteById(id);
+        User currentUser = userService.getCurrentUser();
+
+        if (currentUser == null) {
+            return null;
+        }
+        repository.deleteUserBy_id(currentUser.getId());
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }
