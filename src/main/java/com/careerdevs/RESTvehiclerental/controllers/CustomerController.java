@@ -77,12 +77,6 @@ public class CustomerController {
 
         newCustomer.setUser(currentUser);
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//
-//        User currentUser = user_repository.findById(userDetails.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        newCustomer.setUser(currentUser);
-
         return new ResponseEntity<>(repository.save(newCustomer), HttpStatus.CREATED) ;
     }
 
