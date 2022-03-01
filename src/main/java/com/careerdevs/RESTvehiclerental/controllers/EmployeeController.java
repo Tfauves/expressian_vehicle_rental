@@ -37,17 +37,17 @@ public class EmployeeController {
         return repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/self")
-    public @ResponseBody
-    Employee getSelf() {
-        User currentUser = userService.getCurrentUser();
-
-        if (currentUser == null) {
-            return null;
-        }
-
-        return repository.findByEmployee_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
+//    @GetMapping("/self")
+//    public @ResponseBody
+//    Employee getSelf() {
+//        User currentUser = userService.getCurrentUser();
+//
+//        if (currentUser == null) {
+//            return null;
+//        }
+//
+//        return repository.findByEmployee_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//    }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -81,15 +81,15 @@ public class EmployeeController {
         return repository.save(employee);
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> destroyEmployee(@PathVariable Long id) {
-        User currentUser = userService.getCurrentUser();
-
-        if (currentUser == null) {
-            return null;
-        }
-        repository.deleteUserBy_id(currentUser.getId());
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
-    }
+//    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<String> destroyEmployee(@PathVariable Long id) {
+//        User currentUser = userService.getCurrentUser();
+//
+//        if (currentUser == null) {
+//            return null;
+//        }
+//        repository.deleteUserBy_id(currentUser.getId());
+//        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+//    }
 }

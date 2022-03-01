@@ -55,7 +55,7 @@ public class CustomerController {
             return null;
         }
 
-        return repository.findByCustomer_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return repository.findByUser_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{id}")
@@ -64,11 +64,11 @@ public class CustomerController {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("rental/{custId}")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public List<Car> getRentals(@PathVariable Long custId) {
-        return car_repository.findAllByRentals_customer_id(custId);
-    }
+//    @GetMapping("rental/{custId}")
+//    @PreAuthorize("hasRole('MODERATOR')")
+//    public List<Car> getRentals(@PathVariable Long custId) {
+//        return car_repository.findAllByRentals_customer_id(custId);
+//    }
 
     @PostMapping
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -95,7 +95,7 @@ public class CustomerController {
             return null;
         }
 
-        Customer customer = repository.findByCustomer_id(currentUser.getId()) .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Customer customer = repository.findByUser_id(currentUser.getId()) .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         if (updateData.getFirstName() != null) customer.setFirstName(updateData.getFirstName());
         if (updateData.getLastName() != null) customer.setLastName(updateData.getLastName());
@@ -105,17 +105,17 @@ public class CustomerController {
         return repository.save(customer);
     }
 
-    @DeleteMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> deleteCustomer (@PathVariable Long id) {
-        User currentUser = userService.getCurrentUser();
-
-        if (currentUser == null) {
-            return null;
-        }
-         repository.deleteUserBy_id(currentUser.getId());
-        return new ResponseEntity<>("Deleted", HttpStatus.OK);
-    }
+//    @DeleteMapping
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<String> deleteCustomer (@PathVariable Long id) {
+//        User currentUser = userService.getCurrentUser();
+//
+//        if (currentUser == null) {
+//            return null;
+//        }
+//         repository.deleteUserBy_id(currentUser.getId());
+//        return new ResponseEntity<>("Deleted", HttpStatus.OK);
+//    }
 
 
 

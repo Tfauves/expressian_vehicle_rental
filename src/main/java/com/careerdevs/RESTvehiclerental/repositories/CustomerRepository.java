@@ -11,7 +11,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findByLastName(String lastName, Sort sort);
     List<Customer>findAllByRentals_car_id(Long id);
 
-    Optional <Customer> findByCustomer_id(Long id);
 
-    void deleteUserBy_id(Long id);
+    Optional<Customer> findByUser_id(Long id);
+
+//    void deleteUserBy_id(Long id);
+
 }
