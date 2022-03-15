@@ -3,20 +3,15 @@ package com.careerdevs.RESTvehiclerental.controllers;
 
 import com.careerdevs.RESTvehiclerental.models.auth.User;
 import com.careerdevs.RESTvehiclerental.models.customer.Customer;
-import com.careerdevs.RESTvehiclerental.models.vehicle.Car;
 import com.careerdevs.RESTvehiclerental.repositories.CarRepository;
 import com.careerdevs.RESTvehiclerental.repositories.CustomerRepository;
 import com.careerdevs.RESTvehiclerental.repositories.StoreRepository;
 import com.careerdevs.RESTvehiclerental.repositories.UserRepository;
-import com.careerdevs.RESTvehiclerental.security.services.UserDetailsImpl;
 import com.careerdevs.RESTvehiclerental.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -97,8 +92,8 @@ public class CustomerController {
 
         Customer customer = repository.findByUser_id(currentUser.getId()) .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (updateData.getFirstName() != null) customer.setFirstName(updateData.getFirstName());
-        if (updateData.getLastName() != null) customer.setLastName(updateData.getLastName());
+        if (updateData.getFname() != null) customer.setFname(updateData.getFname());
+        if (updateData.getLname() != null) customer.setLname(updateData.getLname());
         if (updateData.getEmail() != null) customer.setEmail(updateData.getEmail());
         if (updateData.stores != null) customer.stores.addAll(updateData.stores);
 
