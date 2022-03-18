@@ -13,8 +13,8 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long id;
-    private String fname;
-    private String lname;
+    private String fName;
+    private String lName;
     private String email;
 
     //store id in customer table
@@ -38,8 +38,8 @@ public class Customer {
     public Customer() {}
 
     public Customer(String firstName, String lastName, String email, User user) {
-        this.fname = firstName;
-        this.lname = lastName;
+        this.fName = firstName;
+        this.lName = lastName;
         this.email = email;
         this.user = user;
     }
@@ -53,20 +53,20 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFname() {
-        return fname;
+    public String getfName() {
+        return fName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setfName(String fName) {
+        this.fName = fName;
     }
 
-    public String getLname() {
-        return lname;
+    public String getlName() {
+        return lName;
     }
 
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 
     public String getEmail() {

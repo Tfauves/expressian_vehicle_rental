@@ -92,8 +92,8 @@ public class CustomerController {
 
         Customer customer = repository.findByUser_id(currentUser.getId()) .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (updateData.getFname() != null) customer.setFname(updateData.getFname());
-        if (updateData.getLname() != null) customer.setLname(updateData.getLname());
+        if (updateData.getfName() != null) customer.setfName(updateData.getfName());
+        if (updateData.getlName() != null) customer.setlName(updateData.getlName());
         if (updateData.getEmail() != null) customer.setEmail(updateData.getEmail());
         if (updateData.stores != null) customer.stores.addAll(updateData.stores);
 
