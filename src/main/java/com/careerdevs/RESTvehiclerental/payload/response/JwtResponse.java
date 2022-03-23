@@ -10,7 +10,7 @@ public class JwtResponse {
 
     public JwtResponse(String token, Long id, String username, List<String> roles) {
         this.token = token;
-        this.id = id;
+        this.id = id;// TODO: 3/22/2022 future remove this
         this.username = username;
         this.roles = roles;
     }
