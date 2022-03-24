@@ -37,7 +37,7 @@ public class CustomerController {
     UserService userService;
 
     @GetMapping
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public @ResponseBody List<Customer> getCustomers() {
         return repository.findAll();
     }
@@ -54,7 +54,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('MODERATOR')")
+//    @PreAuthorize("hasRole('MODERATOR')")
     public @ResponseBody Customer getOneById(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
